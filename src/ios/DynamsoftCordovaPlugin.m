@@ -457,10 +457,10 @@
     if ([keyPath  isEqualToString:@"URL"]) {
         NSString *newPath = ((NSURL *)[change valueForKey:NSKeyValueChangeNewKey]).path;
         if ([newPath isEqualToString:[DynamsoftSDKManager manager].cameraViewPageUrlPath]) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [DynamsoftSDKManager manager].dynamsoftCameraViewIsVisible = YES;
-                [[DynamsoftSDKManager manager] updateCameraViewVisibleWithState:YES dceView:self.dynamsoftCameraView];
-            });
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                [DynamsoftSDKManager manager].dynamsoftCameraViewIsVisible = YES;
+//                [[DynamsoftSDKManager manager] updateCameraViewVisibleWithState:YES dceView:self.dynamsoftCameraView];
+//            });
         } else {
             [DynamsoftSDKManager manager].dynamsoftCameraViewIsVisible = NO;
             [[DynamsoftSDKManager manager] updateCameraViewVisibleWithState:NO dceView:self.dynamsoftCameraView];
