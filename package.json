@@ -1,0 +1,61 @@
+{
+  "_from": "github:Dynamsoft/capture-vision-cordova",
+  "_id": "dynamsoft-capture-vision-cordova@1.0.4",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/dynamsoft-capture-vision-cordova",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "github:Dynamsoft/capture-vision-cordova",
+    "rawSpec": "github:Dynamsoft/capture-vision-cordova",
+    "saveSpec": "github:Dynamsoft/capture-vision-cordova",
+    "fetchSpec": null,
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "github:Dynamsoft/capture-vision-cordova#7d712f8a5c1555db8b52f931e81e1749b1c513b8",
+  "_spec": "github:Dynamsoft/capture-vision-cordova",
+  "_where": "/Users/chriskhong/Documents/Qarma/mobile-app",
+  "author": {
+    "name": "Dynamsoft",
+    "email": "support@dynamsoft.com",
+    "url": "https://www.dynamsoft.com"
+  },
+  "bugs": {
+    "url": "https://github.com/dynamsoft/capture-vision-cordova/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "dynamsoft-capture-vision-cordova",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "deprecated": false,
+  "description": "Dynamsoft Capture Vision Cordova SDK",
+  "homepage": "https://www.dynamsoft.com/capture-vision/docs/introduction",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "barcode",
+    "PDF417",
+    "QR Code",
+    "DataMatrix",
+    "Linear barcode",
+    "1D barcode"
+  ],
+  "license": "SEE LICENSE",
+  "main": "./www/index.js",
+  "name": "dynamsoft-capture-vision-cordova",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dynamsoft/capture-vision-cordova.git"
+  },
+  "types": "./www/index.d.ts",
+  "version": "1.0.4"
+}
