@@ -8,7 +8,7 @@ export class DCVBarcodeReader {
 
     /**
     * Create an instance of the DCVBarcode reader.
-    */ 
+    */
     static createInstance(): Promise<DCVBarcodeReader> {
         let promise: Promise<DCVBarcodeReader> = new Promise(function (resolve, reject) {
             exec(() => {
@@ -23,15 +23,15 @@ export class DCVBarcodeReader {
     /**
     * Initialize the license with a license key.
     */
-    static initLicense (license: String): Promise<void> {
+    static initLicense(license: String): Promise<void> {
         let promise: Promise<void> = new Promise(function (resolve, reject) {
             exec(
-            ()=>resolve()
-            , (error: String) => {
-                reject(error)
-            }, 'DynamsoftCordovaPlugin', 'initLicense', [license])
+                () => resolve()
+                , (error: String) => {
+                    reject(error)
+                }, 'DynamsoftCordovaPlugin', 'initLicense', [license])
         })
-        
+
         return promise;
     }
 
@@ -85,7 +85,7 @@ export class DCVBarcodeReader {
     /**
     * Output the current runtime settings as a string.
     */
-    outputSettingsToString() : Promise<String> {
+    outputSettingsToString(): Promise<String> {
         let promise: Promise<String> = new Promise(function (resolve, reject) {
             exec((msg: String) => {
                 resolve(msg);
@@ -99,9 +99,9 @@ export class DCVBarcodeReader {
     /**
     * Update the current runtime settings with a DBRRuntimeSettings object / a preset template / a JSON string.
     */
-    updateRuntimeSettings(settings :String | DBRRuntimeSettings | EnumDBRPresetTemplate) : Promise<void> {
+    updateRuntimeSettings(settings: String | DBRRuntimeSettings | EnumDBRPresetTemplate): Promise<void> {
         let promise: Promise<void> = new Promise(function (resolve, reject) {
-            exec(()=>resolve(), (msg: String) => {
+            exec(() => resolve(), (msg: String) => {
                 reject(msg);
             }, 'DynamsoftCordovaPlugin', 'updateRuntimeSettings', [settings]);
         })
@@ -114,8 +114,16 @@ export class DCVBarcodeReader {
     resetRuntimeSettings() {
         exec(null, null, 'DynamsoftCordovaPlugin', 'resetRuntimeSettings', []);
     }
+
+    setMinImageReadingInterval(interval: number) {
+        exec(null, null, 'DynamsoftCordovaPlugin', 'setMinImageReadingInterval', [interval]);
+    }
+
+    getMinImageReadingInterval(): Promise<number>{
+        return new Promise(function (resolve, reject) { 
+            exec((interval:number) => resolve(interval), null, 'DynamsoftCordovaPlugin', 'getMinImageReadingInterval', [])
+        })
+    }
+
+
 }
-
-
-
-

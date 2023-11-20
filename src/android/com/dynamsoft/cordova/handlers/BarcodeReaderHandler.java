@@ -126,6 +126,14 @@ public class BarcodeReaderHandler {
         });
     }
 
+    public void setMinImageReadingInterval(JSONArray args) throws JSONException {
+        mReader.setMinImageReadingInterval(args.getInt(0));
+    }
+
+    public void getMinImageReadingInterval(CallbackContext callbackContext) throws JSONException {
+        callbackContext.success(mReader.getMinImageReadingInterval());
+    }
+
     private JSONArray handleResults(TextResult[] barcodes) throws JSONException {
 
         JSONArray barcodesList = new JSONArray();

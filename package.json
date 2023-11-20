@@ -57,5 +57,5 @@
     "url": "git+https://github.com/dynamsoft/capture-vision-cordova.git"
   },
   "types": "./www/index.d.ts",
-  "version": "1.0.4"
+  "version": "1.0.5"
 }

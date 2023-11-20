@@ -42,6 +42,10 @@
 
 - (void)resetRuntimeSettings:(CDVInvokedUrlCommand *)command;
 
+- (void)setMinImageReadingInterval:(CDVInvokedUrlCommand *)command;
+
+- (void)getMinImageReadingInterval:(CDVInvokedUrlCommand *)command;
+
 // MARK: - DCE interface
 - (void)createDceInstance:(CDVInvokedUrlCommand *)command;
 
@@ -217,6 +221,22 @@
     } else {
         [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[[DynamsoftToolsManager manager] getErrorMsgWithError:error]] callbackId:command.callbackId];
     }
+}
+
+- (void)setMinImageReadingInterval:(CDVInvokedUrlCommand *)command {
+    if (![[DynamsoftConvertManager manager] judgeArgumentsIsAvaiable:command.arguments]) {
+        return;
+    }
+    
+    NSInteger minReadingInterval = [command.arguments.firstObject integerValue];
+    [DynamsoftSDKManager manager].barcodeReader.minImageReadingInterval = minReadingInterval;
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@""];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)getMinImageReadingInterval:(CDVInvokedUrlCommand *)command {
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsNSInteger:[DynamsoftSDKManager manager].barcodeReader.minImageReadingInterval];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 // MARK: - DCE methods
@@ -457,10 +477,7 @@
     if ([keyPath  isEqualToString:@"URL"]) {
         NSString *newPath = ((NSURL *)[change valueForKey:NSKeyValueChangeNewKey]).path;
         if ([newPath isEqualToString:[DynamsoftSDKManager manager].cameraViewPageUrlPath]) {
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                [DynamsoftSDKManager manager].dynamsoftCameraViewIsVisible = YES;
-//                [[DynamsoftSDKManager manager] updateCameraViewVisibleWithState:YES dceView:self.dynamsoftCameraView];
-//            });
+          // Nothing.
         } else {
             [DynamsoftSDKManager manager].dynamsoftCameraViewIsVisible = NO;
             [[DynamsoftSDKManager manager] updateCameraViewVisibleWithState:NO dceView:self.dynamsoftCameraView];

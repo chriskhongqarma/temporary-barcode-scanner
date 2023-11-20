@@ -42,4 +42,6 @@ export declare class DCVBarcodeReader {
     * Reset the runtime settings.
     */
     resetRuntimeSettings(): void;
+    setMinImageReadingInterval(interval: number): void;
+    getMinImageReadingInterval(): Promise<number>;
 }

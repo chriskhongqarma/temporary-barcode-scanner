@@ -261,6 +261,8 @@ declare module Dynamsoft {
         * Reset the runtime settings.
         */
         resetRuntimeSettings(): void;
+        setMinImageReadingInterval(interval: number): void;
+        getMinImageReadingInterval(interval: number): Promise<number>;
     }
     export class DCVCameraEnhancer {
         private constructor();

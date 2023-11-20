@@ -177,6 +177,14 @@ System.register("DCVBarcodeReader", ["cordova/exec"], function (exports_5, conte
                 resetRuntimeSettings() {
                     exec_1.default(null, null, 'DynamsoftCordovaPlugin', 'resetRuntimeSettings', []);
                 }
+                setMinImageReadingInterval(interval) {
+                    (0, exec_1.default)(null, null, 'DynamsoftCordovaPlugin', 'setMinImageReadingInterval', [interval]);
+                }
+                getMinImageReadingInterval(interval) {
+                    return new Promise(function (resolve, reject) {
+                        (0, exec_1.default)((interval) => resolve(interval), null, 'DynamsoftCordovaPlugin', 'getMinImageReadingInterval', []);
+                    });
+                }
             };
             exports_5("DCVBarcodeReader", DCVBarcodeReader);
         }

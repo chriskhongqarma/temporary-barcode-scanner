@@ -94,6 +94,12 @@ public class DynamsoftCordovaPlugin extends CordovaPlugin {
             case "setTextResultListener":
                 mBarcodeReaderHandler.setTextResultListener(callbackContext);
                 break;
+            case "setMinImageReadingInterval":
+                mBarcodeReaderHandler.setMinImageReadingInterval(args);
+                break;
+            case "getMinImageReadingInterval":
+                mBarcodeReaderHandler.getMinImageReadingInterval(callbackContext);
+                break;
 
             // DCE
             case "createDceInstance":
