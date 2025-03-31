@@ -9,7 +9,7 @@
 #import "DynamsoftCameraView.h"
 #import <WebKit/WebKit.h>
 
-@interface DynamsoftCordovaPlugin : CDVPlugin<UIGestureRecognizerDelegate> {
+@interface DynamsoftCordovaPlugin : CDVPlugin<UIGestureRecognizerDelegate, UIScrollViewDelegate> {
   // Member variables go here.
 }
 
@@ -247,6 +247,8 @@
         [DynamsoftSDKManager manager].webViewObserverIsExisted = YES;
         [self.webView addObserver:self forKeyPath:@"URL" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
         [DynamsoftSDKManager manager].cameraViewPageUrlPath = ((WKWebView *)self.webView).URL.path;
+        ((WKWebView *)self.webView).scrollView.bounces = NO;
+        ((WKWebView *)self.webView).scrollView.delegate = self;
     }
     
     // WebView tapGes.
@@ -375,24 +377,24 @@
 }
 
 - (void)createDefaultDCEView {
-    if (self.dynamsoftCameraView) {
-        [self.dynamsoftCameraView removeFromSuperview];
+    if (self.dynamsoftCameraView == nil) {
+        NSDictionary *argumentsDic = @{@"position":@{@"x":@(0),
+                                                     @"y":@(0),
+                                                     @"width":@(0),
+                                                     @"height":@(0)
+                                                     }
+        };
+        CGFloat cameraX = [[[argumentsDic valueForKey:@"position"] valueForKey:@"x"] floatValue];
+        CGFloat cameraY = [[[argumentsDic valueForKey:@"position"] valueForKey:@"y"] floatValue];
+        CGFloat cameraWidth = [[[argumentsDic valueForKey:@"position"] valueForKey:@"width"] floatValue];
+        CGFloat cameraHeight = [[[argumentsDic valueForKey:@"position"] valueForKey:@"height"] floatValue];
+        
+        // Create dce and add to webView.superView.
+        self.dynamsoftCameraView = [[DynamsoftCameraView alloc] initWithFrame:CGRectMake(cameraX, cameraY, cameraWidth, cameraHeight) withArguments:argumentsDic];
+        [self.webView.superview addSubview:self.dynamsoftCameraView];
+    } else {
+        [self.webView.superview bringSubviewToFront:self.dynamsoftCameraView];
     }
-
-    NSDictionary *argumentsDic = @{@"position":@{@"x":@(0),
-                                                 @"y":@(0),
-                                                 @"width":@(0),
-                                                 @"height":@(0)
-                                                 }
-    };
-    CGFloat cameraX = [[[argumentsDic valueForKey:@"position"] valueForKey:@"x"] floatValue];
-    CGFloat cameraY = [[[argumentsDic valueForKey:@"position"] valueForKey:@"y"] floatValue];
-    CGFloat cameraWidth = [[[argumentsDic valueForKey:@"position"] valueForKey:@"width"] floatValue];
-    CGFloat cameraHeight = [[[argumentsDic valueForKey:@"position"] valueForKey:@"height"] floatValue];
-    
-    // Create dce and add to webView.superView.
-    self.dynamsoftCameraView = [[DynamsoftCameraView alloc] initWithFrame:CGRectMake(cameraX, cameraY, cameraWidth, cameraHeight) withArguments:argumentsDic];
-    [self.webView.superview addSubview:self.dynamsoftCameraView];
 }
 
 - (void)bindCameraViewToElement:(CDVInvokedUrlCommand *)command  {
@@ -473,12 +475,14 @@
 }
 
 // MARK: - KVO
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     if ([keyPath  isEqualToString:@"URL"]) {
         NSString *newPath = ((NSURL *)[change valueForKey:NSKeyValueChangeNewKey]).path;
         if ([newPath isEqualToString:[DynamsoftSDKManager manager].cameraViewPageUrlPath]) {
-          // Nothing.
+            ((WKWebView *)self.webView).scrollView.bounces = NO;
         } else {
+            ((WKWebView *)self.webView).scrollView.bounces = YES;
             [DynamsoftSDKManager manager].dynamsoftCameraViewIsVisible = NO;
             [[DynamsoftSDKManager manager] updateCameraViewVisibleWithState:NO dceView:self.dynamsoftCameraView];
         }
@@ -511,6 +515,11 @@
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    BOOL isScanRegionVisible = [DynamsoftSDKManager manager].cameraEnhancer.scanRegionVisible;
+    [[DynamsoftSDKManager manager].cameraEnhancer setScanRegionVisible:isScanRegionVisible];
 }
 
 // MARK: - Lazy

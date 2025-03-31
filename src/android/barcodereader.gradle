@@ -38,12 +38,12 @@ repositories {
     }
 }
 dependencies {
-    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.appcompat:appcompat:1.1.0"
     compileOnly 'org.apache.cordova:framework:12.0.1'
 
 
     implementation 'com.dynamsoft:dynamsoftbarcodereader:9.6.11@aar'
-    implementation 'com.dynamsoft:dynamsoftcameraenhancer:2.3.11@aar'
+    implementation 'com.dynamsoft:dynamsoftcameraenhancer:2.3.12@aar'
 }
 android {
     packagingOptions {
